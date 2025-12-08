@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Farmers Burger | The Healthiest Smash in Tahn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Oswald:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --color-primary: #FFB81C;
+            --color-bg: #0a0a0a;
+            --color-text: #f0f0f0;
+            --color-text-muted: #888888;
+            --font-display: 'Anton', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accent: 'Oswald', sans-serif;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+            /* Hide default cursor */
+        }
+
+        html {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Custom Cursor --- */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-primary);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 184, 28, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline.hovered {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 184, 28, 0.1);
+            border-color: var(--color-primary);
+        }
+
+        a,
+        button,
+        .menu-item {
+            cursor: none;
+        }
+
+        /* --- Noise Overlay --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- Components --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .nav_links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav_link {
+            font-family: var(--font-accent);
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.3s;
+        }
+
+        .nav_link:hover {
+            color: var(--color-primary);
+        }
+
+        .nav_link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--color-primary);
+            transition: width 0.3s var(--ease-out-expo);
+        }
+
+        .nav_link:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav_links {
+                display: none;
+            }
+        }
+
+        /* --- Hero Section --- */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/hero.png');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            filter: brightness(0.6);
+            transform: scale(1.1);
+            /* Zoom for parallax */
+        }
+
+        .hero-vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(10, 10, 10, 0.9) 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 0 1rem;
+        }
+
+        .hero-pre {
+            display: block;
+            font-family: var(--font-accent);
+            color: var(--color-primary);
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .hero-title .line {
+            display: block;
+            transform: translateY(100%);
+            /* Start hidden */
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: transparent;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            font-family: var(--font-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--color-primary);
+            z-index: -1;
+            transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .btn-cta:hover {
+            color: #000;
+        }
+
+        .btn-cta:hover::before {
+            width: 100%;
+        }
+
+        /* --- Ingredients Section --- */
+        .section-ingredients {
+            padding: 10rem 5%;
+            background-color: var(--color-bg);
+            border-bottom: 1px solid #222;
+        }
+
+        .section-header {
+            margin-bottom: 5rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            text-transform: uppercase;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-accent);
+            color: var(--color-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 4rem;
+        }
+
+        .ingredient-card {
+            border: 1px solid #222;
+            padding: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .ingredient-card:hover {
+            border-color: var(--color-primary);
+        }
+
+        .ingredient-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .ingredient-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        /* --- Menu Section --- */
+        .section-menu {
+            padding: 10rem 5%;
+            background: #111;
+        }
+
+        .menu-list {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .menu-item {
+            position: relative;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.3s;
+        }
+
+        .menu-item:hover {
+            border-color: var(--color-primary);
+        }
+
+        .menu-item:hover .menu-item-name {
+            padding-left: 20px;
+            color: var(--color-primary);
+        }
+
+        .menu-left {
+            flex: 1;
+        }
+
+        .menu-item-name {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            transition: all 0.4s var(--ease-out-expo);
+        }
+
+        .menu-item-desc {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            max-width: 80%;
+        }
+
+        .menu-price {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* --- Footer --- */
+        .section-footer {
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: var(--color-bg);
+            border-top: 1px solid #222;
+        }
+
+        .footer-cta {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            text-transform: uppercase;
+            color: #222;
+            transition: color 0.3s;
+        }
+
+        .footer-cta:hover {
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Noise & Overlay -->
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header class="header">
+        <a href="#" class="logo">The Farmers Burger</a>
+        <nav class="nav_links">
+            <a href="#menu" class="nav_link">Menu</a>
+            <a href="#ingredients" class="nav_link">Origin</a>
+            <a href="#footer" class="nav_link">Connect</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="section-hero">
+            <div class="hero-bg"></div>
+            <div class="hero-vignette"></div>
+            <div class="hero-content">
+                <span class="hero-pre">Pittsburgh's Finest</span>
+                <h1 class="hero-title">
+                    <span class="line">The Healthiest</span>
+                    <span class="line" style="color:white;">Smash in Tahn</span>
+                </h1>
+                <div class="hero-btn-wrapper">
+                    <a href="#menu" class="btn-cta">View The Menu</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- INGREDIENTS -->
+        <section id="ingredients" class="section-ingredients">
+            <div class="section-header">
+                <span class="section-subtitle">No Hiding Nothing</span>
+                <h2 class="section-title">Pure Ingredients</h2>
+            </div>
+
+            <div class="ingredients-grid">
+                <div class="ingredient-card">
+                    <span class="ingredient-icon">🐄</span>
+                    <h3 class="ingredient-name">Pasture Raised</h3>
+                    <p style="color:#666;">Beef sourced directly from Serenity Hill & Freedom Farms.</p>
+                </div>
+                <div class="ingredient-card">
+                    <span class="ingredient-icon">🍞</span>
+                    <h3 class="ingredient-name">Killer Bread</h3>
+                    <p style="color:#666;">Organic, wholesome buns from Dave's Killer Bread.</p>
+                </div>
+                <div class="ingredient-card">
+                    <span class="ingredient-icon">🧀</span>
+                    <h3 class="ingredient-name">Horizon Organic</h3>
+                    <p style="color:#666;">The creamiest organic American cheese. Zero junk.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU -->
+        <section id="menu" class="section-menu">
+            <div class="section-header">
+                <span class="section-subtitle">St. City Classics</span>
+                <h2 class="section-title">The Menu</h2>
+            </div>
+
+            <div class="menu-list">
+                <!-- Item 1 -->
+                <div class="menu-item">
+                    <div class="menu-left">
+                        <h3 class="menu-item-name">Steel City Smash</h3>
+                        <p class="menu-item-desc">Two pasture-raised patties, Horizon American cheese, House Yinzer
+                            sauce.</p>
+                    </div>
+                    <span class="menu-price">$15</span>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="menu-item">
+                    <div class="menu-left">
+                        <h3 class="menu-item-name">Oni-yinz Smash</h3>
+                        <p class="menu-item-desc">Everything in the Steel City + Caramelized Organic Sweet Onions.</p>
+                    </div>
+                    <span class="menu-price">$16</span>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="menu-item">
+                    <div class="menu-left">
+                        <h3 class="menu-item-name">Quickie Smash</h3>
+                        <p class="menu-item-desc">Single patty. Simple. Fast. Delicious.</p>
+                    </div>
+                    <span class="menu-price">$11</span>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="menu-item">
+                    <div class="menu-left">
+                        <h3 class="menu-item-name">Grilled Cheese N'at</h3>
+                        <p class="menu-item-desc">Organic grilled cheese with organic creamy tomato soup.</p>
+                    </div>
+                    <span class="menu-price">$13</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer id="footer" class="section-footer">
+            <a href="https://instagram.com/fittburgher" target="_blank" class="footer-cta">@fittburgher</a>
+            <p style="color:#444; margin-top:1rem;">Made in the Burgh. © 2025.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Custom Cursor ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay (animation in CSS / GSAP)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Add hover effect to interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .menu-item');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovered'));
+        });
+
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Entrance
+        const tl = gsap.timeline();
+        tl.to('.hero-title .line', {
+            y: 0,
+            duration: 1.5,
+            stagger: 0.2,
+            ease: "power4.out",
+            delay: 0.2
+        })
+            .from('.hero-pre', {
+                opacity: 0,
+                y: 20,
+                duration: 1
+            }, "-=1")
+            .from('.btn-cta', {
+                opacity: 0,
+                y: 20,
+                duration: 1
+            }, "-=0.8");
+
+        // Parallax Hero BG
+        gsap.to('.hero-bg', {
+            scrollTrigger: {
+                trigger: '.section-hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            y: 200, // Move background slower than scroll
+            ease: 'none'
+        });
+
+        // Ingredients Stagger
+        gsap.from('.ingredient-card', {
+            scrollTrigger: {
+                trigger: '.ingredients-grid',
+                start: 'top 80%',
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        // Menu Items Slide In
+        gsap.utils.toArray('.menu-item').forEach((item, i) => {
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 90%',
+                },
+                x: -50,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: i * 0.1
+            });
+        });
+
+        console.log("Premium Mode Active 🚀");
+    </script>
+</body>
+
+</html>
