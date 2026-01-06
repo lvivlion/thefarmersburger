@@ -4,14 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Farmers Burger | The Healthiest Smash in Tahn</title>
+    <title>The Farmers Burger | Pittsburgh Food Truck & Event Catering | Healthy Smash Burgers</title>
+    <meta name="description"
+        content="Pittsburgh's healthiest food truck serving pasture-raised smash burgers. Book The Farmers Burger for corporate events, weddings, and mobile catering throughout PA.">
+    <meta name="keywords"
+        content="Pittsburgh food truck, food truck catering Pittsburgh, mobile catering Pittsburgh, event catering Pittsburgh PA, smash burger Pittsburgh, pasture raised beef Pittsburgh, healthy burger Pittsburgh, corporate event catering, wedding food truck Pittsburgh">
+    <meta name="author" content="The Farmers Burger">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Farmers Burger | Pittsburgh Food Truck & Event Catering">
+    <meta property="og:description"
+        content="Pittsburgh's healthiest food truck serving pasture-raised smash burgers. Book us for your next event!">
+    <meta property="og:image" content="assets/pittsburgh-food-truck-smash-burger.webp">
+    <meta property="og:url" content="https://thefarmersburger.com">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Farmers Burger | Pittsburgh Food Truck">
+    <meta name="twitter:description" content="Pittsburgh's healthiest food truck serving pasture-raised smash burgers.">
+    <meta name="twitter:image" content="assets/pittsburgh-food-truck-smash-burger.webp">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://thefarmersburger.com/">
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/pittsburgh-food-truck-hero-banner.webp" as="image" type="image/webp">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Oswald:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Oswald:wght@400;700&family=Work+Sans:wght@700&display=swap"
         rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.cdnfonts.com/css/weston" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
     <style>
         :root {
             --color-primary: #FFB81C;
@@ -21,6 +50,8 @@
             --font-display: 'Anton', sans-serif;
             --font-body: 'Inter', sans-serif;
             --font-accent: 'Oswald', sans-serif;
+            --font-weston: 'Weston', sans-serif;
+            --font-worksans: 'Work Sans', sans-serif;
             --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
@@ -92,6 +123,10 @@
             height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
             pointer-events: none;
+            z-index: 999;
+        }
+
+        .section-hero {
             height: 100vh;
             display: flex;
             align-items: center;
@@ -119,12 +154,13 @@
         }
 
         .logo {
-            font-family: var(--font-display);
+            font-family: var(--font-weston);
             font-size: 1.5rem;
             color: white;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: 700;
+            text-decoration: none;
         }
 
         .nav_links {
@@ -133,7 +169,7 @@
         }
 
         .nav_link {
-            font-family: var(--font-accent);
+            font-family: var(--font-weston);
             text-transform: uppercase;
             font-weight: 500;
             font-size: 0.9rem;
@@ -141,6 +177,7 @@
             position: relative;
             color: rgba(255, 255, 255, 0.8);
             transition: color 0.3s;
+            text-decoration: none;
         }
 
         .nav_link:hover {
@@ -162,6 +199,10 @@
             width: 100%;
         }
 
+        .menu-toggle {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .header {
                 padding: 1rem 1.5rem;
@@ -169,6 +210,68 @@
 
             .nav_links {
                 display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                z-index: 99;
+            }
+
+            .nav_links.active {
+                display: flex;
+            }
+
+            .nav_link {
+                font-size: 2rem;
+            }
+
+            .menu-toggle {
+                display: block;
+                width: 30px;
+                height: 20px;
+                position: relative;
+                z-index: 101;
+                cursor: pointer;
+            }
+
+            .menu-toggle span {
+                display: block;
+                width: 100%;
+                height: 2px;
+                background: white;
+                position: absolute;
+                transition: all 0.3s;
+            }
+
+            .menu-toggle span:nth-child(1) {
+                top: 0;
+            }
+
+            .menu-toggle span:nth-child(2) {
+                top: 9px;
+            }
+
+            .menu-toggle span:nth-child(3) {
+                top: 18px;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
             }
         }
 
@@ -179,9 +282,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/hero.png');
+            background-image: url('assets/pittsburgh-food-truck-hero-banner.webp');
             background-size: cover;
-            background-position: center;
+            background-position: center 75%;
             z-index: -1;
             filter: brightness(0.6);
             transform: scale(1.1);
@@ -277,30 +380,34 @@
         }
 
         .section-title {
-            font-family: var(--font-display);
-            font-size: 4rem;
+            font-family: var(--font-weston);
+            font-size: clamp(2rem, 8vw, 4rem);
             text-transform: uppercase;
             color: white;
             margin-bottom: 1rem;
         }
 
         .section-subtitle {
-            font-family: var(--font-accent);
+            font-family: var(--font-worksans);
             color: var(--color-primary);
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-weight: 700;
         }
 
         .ingredients-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 4rem;
+            align-items: start;
         }
 
         .ingredient-card {
             border: 1px solid #222;
             padding: 2rem;
             transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .ingredient-card:hover {
@@ -356,7 +463,7 @@
         }
 
         .menu-item-name {
-            font-family: var(--font-display);
+            font-family: var(--font-weston);
             font-size: 2.5rem;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
@@ -375,6 +482,167 @@
             color: white;
         }
 
+        /* --- Story Section --- */
+        .section-story {
+            padding: 10rem 5%;
+            background-color: var(--color-bg);
+            border-bottom: 1px solid #222;
+        }
+
+        .container-story {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 184, 28, 0.2);
+        }
+
+        .story-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(0.2) contrast(1.1);
+            transition: transform 0.8s var(--ease-out-expo);
+        }
+
+        .story-image-wrapper:hover .story-image {
+            transform: scale(1.05);
+            filter: grayscale(0);
+        }
+
+        .story-subtitle {
+            font-family: var(--font-worksans);
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .story-title {
+            font-family: var(--font-weston);
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 3rem;
+            color: white;
+            line-height: 1;
+        }
+
+        .story-content p {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .story-footer {
+            margin-top: 4rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .story-tag {
+            font-family: var(--font-worksans);
+            font-weight: 700;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 184, 28, 0.3);
+        }
+
+        /* --- Gallery Section --- */
+        .section-gallery {
+            padding: 10rem 5%;
+            background: var(--color-bg);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: #111;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s var(--ease-out-expo);
+            filter: grayscale(0.2) contrast(1.1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0);
+        }
+
+        /* --- Catering Section --- */
+        .section-catering {
+            padding: 10rem 5%;
+            background: #0f0f0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .catering-form-container {
+            width: 100%;
+            max-width: 800px;
+            background: #151515;
+            padding: 2rem;
+            border: 1px solid #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .catering-iframe {
+            width: 100%;
+            border: none;
+            height: 1250px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-gallery,
+            .section-catering {
+                padding: 6rem 5%;
+            }
+
+            .catering-form-container {
+                padding: 1rem;
+            }
+        }
+
         /* --- Footer --- */
         .section-footer {
             height: 50vh;
@@ -390,12 +658,27 @@
             font-family: var(--font-display);
             font-size: 3rem;
             text-transform: uppercase;
-            color: #222;
+            color: var(--color-primary);
             transition: color 0.3s;
         }
 
         .footer-cta:hover {
-            color: var(--color-primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .section-story {
+                padding: 6rem 5%;
+            }
+
+            .container-story {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .story-image-wrapper {
+                order: -1;
+            }
         }
     </style>
 </head>
@@ -408,6 +691,11 @@
 
     <header class="header">
         <a href="#" class="logo">The Farmers Burger</a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <nav class="nav_links">
             <a href="#menu" class="nav_link">Menu</a>
             <a href="#ingredients" class="nav_link">Origin</a>
@@ -428,6 +716,34 @@
                 </h1>
                 <div class="hero-btn-wrapper">
                     <a href="#menu" class="btn-cta">View The Menu</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORY -->
+        <section id="story" class="section-story">
+            <div class="container-story">
+                <div class="story-image-wrapper">
+                    <img src="assets/farmersburgerandownerderek.webp" alt="Derek - Owner of The Farmers Burger"
+                        class="story-image">
+                </div>
+                <div class="story-content">
+                    <span class="story-subtitle">The Mission</span>
+                    <h2 class="story-title">Farm to Face</h2>
+                    <p>
+                        I lost my mother to cancer when I was 16. That loss drove me to become a personal trainer, but I
+                        quickly realized you can’t out-train a broken food system. I got sick of restaurants that didn't
+                        care where their food came from, so I decided to build one that did.
+                    </p>
+                    <p>
+                        The Farmers Burger is about transparency. We use pasture-raised beef from local PA farms and
+                        organic, toxic free ingredients to prove you can have a world-class burger and actually feel
+                        good after.
+                    </p>
+                    <div class="story-footer">
+                        <span class="story-tag">Supporting local farmers.</span>
+                        <span class="story-tag">Supporting your health.</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -505,10 +821,64 @@
             </div>
         </section>
 
+        <!-- GALLERY -->
+        <section id="gallery" class="section-gallery">
+            <div class="section-header">
+                <span class="section-subtitle">The Vibe</span>
+                <h2 class="section-title">In The Kitchen</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="assets/pittsburgh-food-truck-smash-burger.webp"
+                        alt="Pittsburgh food truck smash burger - The Farmers Burger" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/mobile-catering-pittsburgh-events.webp"
+                        alt="Mobile catering for Pittsburgh events and weddings" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/pasture-raised-beef-burger-pittsburgh.webp"
+                        alt="Pasture raised beef burger from local PA farms" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/pittsburgh-event-catering-food-truck.webp"
+                        alt="Pittsburgh event catering food truck service" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/healthy-burger-food-truck-pittsburgh.webp"
+                        alt="Healthy organic burger food truck in Pittsburgh" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/corporate-event-catering-pittsburgh.webp"
+                        alt="Corporate event catering Pittsburgh - The Farmers Burger" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- CATERING -->
+        <section id="catering" class="section-catering">
+            <div class="section-header">
+                <span class="section-subtitle">Events & Popups</span>
+                <h2 class="section-title">Catering</h2>
+            </div>
+            <div class="catering-form-container">
+                <iframe class="catering-iframe"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSdpWEDPA5OI2ANRPb03W5k7VMJCAmD2P3mgKyhavKADo3kAbQ/viewform?embedded=true"
+                    frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading…</iframe>
+            </div>
+        </section>
+
         <!-- FOOTER -->
         <footer id="footer" class="section-footer">
-            <a href="https://instagram.com/fittburgher" target="_blank" class="footer-cta">@fittburgher</a>
-            <p style="color:#444; margin-top:1rem;">Made in the Burgh. © 2025.</p>
+            <span
+                style="font-family: var(--font-worksans); color: var(--color-primary); font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;">Follow
+                us on IG</span>
+            <a href="https://www.instagram.com/thefarmersburger/" target="_blank"
+                class="footer-cta">@thefarmersburger</a>
+            <p style="color:#444; margin-top:1rem;">Made in the Burgh. © <span id="year"></span>.</p>
+            <p style="color: var(--color-primary); font-size: 0.8rem; margin-top: 0.5rem;">Developed in Pittsburgh by <a
+                    href="https://ost4p.com/website" target="_blank"
+                    style="color: inherit; text-decoration: underline;">OL Web Solutions</a></p>
         </footer>
 
     </main>
@@ -543,6 +913,26 @@
 
         // --- GSAP Animations ---
         gsap.registerPlugin(ScrollTrigger);
+
+        // Update Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav_links');
+        const navItems = document.querySelectorAll('.nav_link');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
 
         // Hero Entrance
         const tl = gsap.timeline();
@@ -602,6 +992,53 @@
                 ease: "power3.out",
                 delay: i * 0.1
             });
+        });
+
+        // Story Animation
+        const storyTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.section-story',
+                start: 'top 70%',
+            }
+        });
+
+        storyTl.from('.story-image-wrapper', {
+            x: -50,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power3.out"
+        })
+            .from('.story-content > *', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            }, "-=0.8");
+
+        // Gallery Animation
+        gsap.from('.gallery-item', {
+            scrollTrigger: {
+                trigger: '.gallery-grid',
+                start: 'top 80%',
+            },
+            scale: 0.8,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.1,
+            ease: "power3.out"
+        });
+
+        // Catering Animation
+        gsap.from('.catering-form-container', {
+            scrollTrigger: {
+                trigger: '.section-catering',
+                start: 'top 80%',
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power3.out"
         });
 
         console.log("Premium Mode Active 🚀");
