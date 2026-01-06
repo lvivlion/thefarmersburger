@@ -29,6 +29,9 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://thefarmersburger.com/">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <!-- Preload critical assets -->
     <link rel="preload" href="assets/pittsburgh-food-truck-hero-banner.webp" as="image" type="image/webp">
 
@@ -411,10 +414,10 @@
 
         .ingredients-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
             align-items: stretch;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -668,13 +671,32 @@
 
         /* --- Footer --- */
         .section-footer {
-            height: 50vh;
+            min-height: 30vh;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            padding: 4rem 5% 2rem;
             background: var(--color-bg);
             border-top: 1px solid #222;
+        }
+
+        .footer-bottom {
+            background: #000;
+            padding: 1.5rem 5%;
+            text-align: center;
+            border-top: 1px solid #111;
+        }
+
+        .footer-bottom p {
+            color: var(--color-primary);
+            font-size: 0.8rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bottom b {
+            font-weight: 700;
         }
 
         .footer-cta {
@@ -787,13 +809,19 @@
                 </div>
                 <div class="ingredient-card">
                     <span class="ingredient-icon">🍞</span>
-                    <h3 class="ingredient-name">Mediterra Bakery</h3>
-                    <p style="color:#666;">Organic, wholesome buns from Mediterra Bakery.</p>
+                    <h3 class="ingredient-name">Mediterra Bakehouse</h3>
+                    <p style="color:#666;">Locally sourced, no seed oils.</p>
                 </div>
                 <div class="ingredient-card">
                     <span class="ingredient-icon">🧀</span>
                     <h3 class="ingredient-name">Horizon Organic</h3>
                     <p style="color:#666;">The creamiest organic American cheese. Zero junk.</p>
+                </div>
+                <div class="ingredient-card">
+                    <span class="ingredient-icon">🥫</span>
+                    <h3 class="ingredient-name">Yinzer Sauce</h3>
+                    <p style="color:#666;">No seed oils, Primal Kitchen Mayo, Organic Heinz Ketchup and PGH Pickles
+                        pickle juice.</p>
                 </div>
             </div>
         </section>
@@ -899,11 +927,12 @@
                 us on IG</span>
             <a href="https://www.instagram.com/thefarmersburger/" target="_blank"
                 class="footer-cta">@thefarmersburger</a>
-            <p style="color:#444; margin-top:1rem;">Made in the Burgh. © <span id="year"></span>.</p>
-            <p style="color: var(--color-primary); font-size: 0.8rem; margin-top: 0.5rem;">Developed in Pittsburgh by <a
-                    href="https://ost4p.com/website" target="_blank"
-                    style="color: inherit; text-decoration: underline;">OL Web Solutions</a></p>
         </footer>
+
+        <div class="footer-bottom">
+            <p>© <span id="year"></span>. Made in the Burgh by <a href="https://ost4p.com/website" target="_blank"
+                    style="color: inherit; text-decoration: underline;"><b>OL Web Solutions</b></a></p>
+        </div>
 
     </main>
 
@@ -1000,7 +1029,8 @@
             opacity: 0,
             duration: 1,
             stagger: 0.2,
-            ease: "power3.out"
+            ease: "power3.out",
+            clearProps: "transform"
         });
 
         // Menu Items Slide In
