@@ -98,7 +98,21 @@
             width: 40px;
             height: 40px;
             border: 1px solid rgba(255, 184, 28, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            transition: transform 0.1s, opacity 0.1s;
+        }
+
+        /* Hide custom cursor on mobile/touch devices */
+        @media (max-width: 768px),
+        (pointer: coarse) {
+
+            .cursor-dot,
+            .cursor-outline {
+                display: none !important;
+            }
+
+            * {
+                cursor: auto !important;
+            }
         }
 
         body:hover .cursor-outline.hovered {
